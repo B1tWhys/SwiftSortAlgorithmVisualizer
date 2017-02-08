@@ -691,12 +691,19 @@
                             </customView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="xEa-px-yif" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="7Wn-7P-oRm"/>
                             <constraint firstAttribute="bottom" secondItem="xEa-px-yif" secondAttribute="bottom" id="QX9-io-BHh"/>
+                            <constraint firstItem="xEa-px-yif" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="cFT-fb-Phf"/>
                             <constraint firstItem="xEa-px-yif" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="cvZ-Et-4Bc"/>
                             <constraint firstItem="xEa-px-yif" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="fEk-vH-dKc"/>
+                            <constraint firstAttribute="bottom" secondItem="xEa-px-yif" secondAttribute="bottom" id="p6k-ZO-XF8"/>
                             <constraint firstAttribute="trailing" secondItem="xEa-px-yif" secondAttribute="trailing" id="q04-Ha-m1g"/>
+                            <constraint firstAttribute="trailing" secondItem="xEa-px-yif" secondAttribute="trailing" id="vLc-Ow-VAe"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="graphView" destination="xEa-px-yif" id="8aY-3H-4ga"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
