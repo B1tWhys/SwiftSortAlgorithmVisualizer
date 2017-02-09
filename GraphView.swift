@@ -13,7 +13,6 @@ class GraphView: NSView {
 	var values: [Int]! {
 		didSet {
 			if (values.count != 0) {
-				Swift.print("valuesSet")
 				self.setNeedsDisplay(self.frame)
 			}
 		}
@@ -40,12 +39,11 @@ class GraphView: NSView {
 	
 	convenience init(frame frameRect: NSRect, values: [Int]) {
 		self.init(frame: frameRect)
-		
 		self.values = values
-
 	}
 	
 	required init?(coder: NSCoder) {
+		self.values = [Int]()
 		super.init(coder: coder)
 	}
 	
@@ -53,6 +51,7 @@ class GraphView: NSView {
 		NSColor.black.setFill()
 		NSBezierPath.fill(dirtyRect)
 		NSColor.white.setFill()
+		let path = NSBezierPath()
 		for index in 0..<self.values.count {
 			let val = self.values[index]
 			let height = CGFloat(Float(val)*self.hScale)
@@ -62,7 +61,8 @@ class GraphView: NSView {
 			                  y: 0.0,
 			                  width: CGFloat(self.barWidth),
 			                  height: height)
-			NSBezierPath.fill(rect)
+			path.appendRect(rect)
 		}
+		path.fill()
 	}
 }

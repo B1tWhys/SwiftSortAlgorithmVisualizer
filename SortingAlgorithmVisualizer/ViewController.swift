@@ -10,22 +10,49 @@ import Cocoa
 
 class ViewController: NSViewController {
 	@IBOutlet weak var graphView: GraphView!
+	var graphicsArray = [Int]()
 
+	required init?(coder: NSCoder) {
+		super.init(coder: coder)
+	}
+	
+	required override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+	}
+	
+	
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.graphView.values = [1, 2, 3, 4, 5]
+		
+		
+//		let lock = NSLock()
+//		lock.lock()
+//		var tempGraphArray = [Int]()
+
 		self.view.window?.backgroundColor = NSColor.black
 		
-		Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(addValToChart), userInfo: nil, repeats: true)
 		
-		// Do any additional setup after loading the view.
+		let len = 100
+		var pool = Array(0..<len)
+		for _ in 0..<(len) {
+			let index = Int(arc4random_uniform(UInt32(pool.count)))
+			Sorter.vals.append(pool.remove(at: index))
+		}
+		
+		self.graphView.values = Sorter.vals
+		
+		Sorter.quicksort(array: &Sorter.vals, lo: 0, hi: Sorter.vals.count)
+		print(Sorter.swaps.count)
+		Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(updateGraphView), userInfo: nil, repeats: true)
+		
 	}
 
-	func addValToChart() {
-		let swpObj = Swap(index1: 2, index2: 3)
-		
-		self.graphView.values.swap(swapObj: swpObj)
-		//self.graphView.values.append(Int(val))
+	func updateGraphView() {
+		if Sorter.swaps.count > 0 {
+			let swap = Sorter.swaps.remove(at: 0)
+			self.graphView.values.swap(swapObj: swap)
+		}
 	}
 	
 	override var representedObject: Any? {
