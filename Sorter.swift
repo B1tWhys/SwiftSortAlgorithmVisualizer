@@ -25,9 +25,14 @@ struct Sorter {
 					leftwall += 1
 				}
 			}
-			let swap = Swap(index1: Sorter.vals.index(of: pivot)!, index2: leftwall)
-			swaps.append(swap)
-			A.swap(swapObj: swap)
+			
+			DispatchQueue.main.sync {
+				let swap = Swap(index1: Sorter.vals.index(of: pivot)!, index2: leftwall)
+				
+				swaps.append(swap)
+				A.swap(swapObj: swap)
+			}
+
 			return leftwall
 		}
 		

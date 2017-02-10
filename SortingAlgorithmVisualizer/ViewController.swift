@@ -24,11 +24,6 @@ class ViewController: NSViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		
-//		let lock = NSLock()
-//		lock.lock()
-//		var tempGraphArray = [Int]()
 
 		self.view.window?.backgroundColor = NSColor.black
 		
@@ -42,7 +37,9 @@ class ViewController: NSViewController {
 		
 		self.graphView.values = Sorter.vals
 		
-		Sorter.quicksort(array: &Sorter.vals, lo: 0, hi: Sorter.vals.count)
+		DispatchQueue.global().async {
+			Sorter.quicksort(array: &Sorter.vals, lo: 0, hi: Sorter.vals.count)
+		}
 		print(Sorter.swaps.count)
 		Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(updateGraphView), userInfo: nil, repeats: true)
 		
