@@ -20,3 +20,13 @@ extension Array {
 		self[swapObj.index2] = temp1
 	}
 }
+
+infix operator *
+
+func * <newElement>(left: Array<newElement>, right: Int) -> Array<newElement> {
+	var accumulator = [newElement]()
+	for _ in 0..<right {
+		accumulator.append(contentsOf: left)
+	}
+	return accumulator
+}
