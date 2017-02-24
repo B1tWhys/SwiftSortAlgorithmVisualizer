@@ -16,7 +16,8 @@ struct PixelData {
 }
 
 class GraphView: NSImageView {
-	
+	var whiteCount = 0
+
 	var values: [Int]! {
 		didSet {
 			if (values.count != 0) {
@@ -55,41 +56,78 @@ class GraphView: NSImageView {
 	}
 	
 	override func draw(_ dirtyRect: NSRect) {
-		NSColor.black.setFill()
-		NSBezierPath.fill(dirtyRect)
-		NSColor.white.setFill()
-		let path = NSBezierPath()
-		for index in 0..<self.values.count {
-			let val = self.values[index]
-			let height = CGFloat(Float(val)*self.hScale)
-			let x = CGFloat(Float(index)*barWidth)
-			
-			let rect = CGRect(x: x,
-			                  y: 0.0,
-			                  width: CGFloat(self.barWidth),
-			                  height: height)
-			path.appendRect(rect)
-		}
-		path.fill()
-		
-		
-		
+		self.whiteCount = 0
+		let bitmap = calcBitmap()
+		Swift.print("size is \(self.frame.size)")
+		let image = imageFromBitmap(bitmap, width: Int(self.frame.width*2.0), height: Int(self.frame.height*2.0))
+		image.draw(in: dirtyRect)
 	}
 	
-	private func calcBitmap() -> [Bool] {
-		var pixels = [Bool]() // column / rows
-		NSGraphicsContext.current()
-		let perBarWidth = Int((self.frame.width*2)/CGFloat(self.values.count))
-
-		let height = Float(self.frame.height*2)
-		let maxVal = self.values.max()!
+	let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+	let bitmapInfo: CGBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
+	
+	func imageFromBitmap(_ pixels:[PixelData], width: Int, height: Int) -> NSImage {
+		let bitsPerComponent = 8
+		let bitsPerPixel = 32
 		
-		for val in self.values {
-			let frac = Float(val)/Float(maxVal)
-			let pxHeight = Int(frac*height)
-			let column = Array(repeating: true, count: pxHeight) + Array(repeating: false, count: Int(height)-pxHeight)
-			pixels.append(contentsOf: column*perBarWidth)
+		assert(pixels.count == Int(width*height))
+		var data: [PixelData] = pixels
+		let providerRef = CGDataProvider(
+			data: Data(bytes: UnsafeRawPointer!(&data), count: data.count * MemoryLayout<PixelData>.size) as CFData
+		)
+		
+		let gcim = CGImage(
+			width: width,
+			height: height,
+			bitsPerComponent: bitsPerComponent,
+			bitsPerPixel: bitsPerPixel,
+			bytesPerRow: width*MemoryLayout<PixelData>.size,
+			space: self.rgbColorSpace,
+			bitmapInfo: self.bitmapInfo,
+			provider: providerRef!,
+			decode: nil,
+			shouldInterpolate: true,
+			intent: CGColorRenderingIntent.defaultIntent)
+		
+		return NSImage(cgImage: gcim!, size: CGSize(width: width, height: height))
+	}
+	
+	
+	private func calcBitmap() -> [PixelData] {
+		var pixels = [PixelData]()
+		NSGraphicsContext.current()
+		
+		let height = Int(self.frame.height*2)
+		let width = Int(self.frame.width*2)
+		
+		let maxVal = Float(self.values.max()!)
+		let scaleFactor = Float(height)/maxVal
+		
+		
+		
+		for rowFromTop in 0..<height {
+			let row = height-rowFromTop
+			for column in 0..<width {
+				let index = Int(roundf((Float(column)/Float(width))*Float(self.values.count-1)))
+				let valForRow = Float(self.values[index])
+				let isWhite = Float(row) <= (valForRow)*(scaleFactor)
+				//let isWhite = Float(row)<=(valForRow/maxVal)
+				if isWhite {
+					whiteCount += 1
+					//Swift.print(whiteCount)
+				}
+				let pixel = isWhite ? PixelData(a: 255, r: 255, g: 255, b: 255) : PixelData(a: 255, r: 0, g: 0, b: 0)
+				pixels.append(pixel)
+			}
 		}
+		whiteCount = 0
+		
+//		for val in self.values {
+//			let frac = Float(val)/Float(maxVal)
+//			let pxHeight = Int(frac*Float(height))
+//			let column = Array(repeating: true, count: pxHeight) + Array(repeating: false, count: Int(height)-pxHeight)
+//			pixels.append(contentsOf: column*perBarWidth)
+//		}
 		
 		return pixels
 	}

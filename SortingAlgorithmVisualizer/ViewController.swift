@@ -34,7 +34,6 @@ class ViewController: NSViewController {
 
 		print(Sorter.swaps.count)
 		Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(updateGraphView(sender:)), userInfo: nil, repeats: true)
-		
 	}
 
 	func runSort() { // initialize the sort array, and call the sort in the right queue
@@ -42,10 +41,7 @@ class ViewController: NSViewController {
 		Sorter.sorted = false
 		
 		DispatchQueue.global().async {
-//			Sorter.quicksort(array: &Sorter.vals, lo: 0, hi: Sorter.vals.count)
-//			Sorter.bubbleSort(array: &Sorter.vals)
-			
-			Sorter.sort(algorithm: .bubbleSort)
+			Sorter.sort(algorithm: .quickSort)
 			
 			DispatchQueue.main.sync {
 				Sorter.sorted = true
@@ -62,7 +58,6 @@ class ViewController: NSViewController {
 			let index = Int(arc4random_uniform(UInt32(pool.count)))
 			Sorter.vals.append(pool.remove(at: index))
 		}
-		
 		self.graphView.values = Sorter.vals
 	}
 	
