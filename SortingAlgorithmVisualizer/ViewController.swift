@@ -32,7 +32,6 @@ class ViewController: NSViewController {
 		
 		self.runSort()
 
-		print(Sorter.swaps.count)
 		Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(updateGraphView(sender:)), userInfo: nil, repeats: true)
 	}
 

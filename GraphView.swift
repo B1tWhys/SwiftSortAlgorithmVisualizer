@@ -58,7 +58,6 @@ class GraphView: NSImageView {
 	override func draw(_ dirtyRect: NSRect) {
 		self.whiteCount = 0
 		let bitmap = calcBitmap()
-		Swift.print("size is \(self.frame.size)")
 		let image = imageFromBitmap(bitmap, width: Int(self.frame.width*2.0), height: Int(self.frame.height*2.0))
 		image.draw(in: dirtyRect)
 	}
@@ -93,7 +92,7 @@ class GraphView: NSImageView {
 	}
 	
 	
-	private func calcBitmap() -> [PixelData] {
+	func calcBitmap() -> [PixelData] {
 		var pixels = [PixelData]()
 		NSGraphicsContext.current()
 		
