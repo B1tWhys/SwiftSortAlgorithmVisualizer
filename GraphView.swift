@@ -13,10 +13,10 @@ struct PixelData {
 	var r: UInt8
 	var g: UInt8
 	var b: UInt8
+
 }
 
 class GraphView: NSImageView {
-	var whiteCount = 0
 
 	var values: [Int]! {
 		didSet {
@@ -31,6 +31,7 @@ class GraphView: NSImageView {
 			return Float(self.frame.width)/Float(values.count)
 		}
 	}
+	
 	var hScale: Float {
 		get {
 			let range = Float(values.max()!)
@@ -56,7 +57,6 @@ class GraphView: NSImageView {
 	}
 	
 	override func draw(_ dirtyRect: NSRect) {
-		self.whiteCount = 0
 		let bitmap = calcBitmap()
 		let image = imageFromBitmap(bitmap, width: Int(self.frame.width*2.0), height: Int(self.frame.height*2.0))
 		image.draw(in: dirtyRect)
@@ -94,33 +94,42 @@ class GraphView: NSImageView {
 	
 	func calcBitmap() -> [PixelData] {
 		var pixels = [PixelData]()
-		NSGraphicsContext.current()
-		
 		let height = Int(self.frame.height*2)
 		let width = Int(self.frame.width*2)
+		
+		NSGraphicsContext.current()
+		
+		pixels.reserveCapacity(height*width)
 		
 		let maxVal = Float(self.values.max()!)
 		let scaleFactor = Float(height)/maxVal
 		
-		
-		
-		for rowFromTop in 0..<height {
-			let row = height-rowFromTop
-			for column in 0..<width {
-				let index = Int(roundf((Float(column)/Float(width))*Float(self.values.count-1)))
-				let valForRow = Float(self.values[index])
-				let isWhite = Float(row) <= (valForRow)*(scaleFactor)
-				//let isWhite = Float(row)<=(valForRow/maxVal)
-				if isWhite {
-					whiteCount += 1
-					//Swift.print(whiteCount)
-				}
-				let pixel = isWhite ? PixelData(a: 255, r: 255, g: 255, b: 255) : PixelData(a: 255, r: 0, g: 0, b: 0)
-				pixels.append(pixel)
-			}
+		var barHeights = [Int]()
+		for val in values {
+			barHeights.append(Int(Float(val)*scaleFactor))
 		}
-		whiteCount = 0
 		
+		let whitePx = PixelData(a: 255, r: 255, g: 255, b: 255)
+		let blackPx = PixelData(a: 255, r: 0, g: 0, b: 0)
+		
+		var prevColumn: [PixelData]?
+		var prevHeight: Int?
+		
+		for column in 0..<width {
+			let index = Int(roundf((Float(column)/Float(width))*Float(self.values.count-1)))
+			let valForColumn = barHeights[index]
+			if valForColumn != prevHeight {
+				prevHeight = valForColumn
+				prevColumn = [PixelData]()
+				for row in (0..<height).reversed() {
+					let pixel = (row <= valForColumn) ? whitePx : blackPx
+					prevColumn!.append(pixel)
+				}
+			}
+			pixels.append(contentsOf: prevColumn!)
+		}
+		
+//		Swift.print(testpx)
 //		for val in self.values {
 //			let frac = Float(val)/Float(maxVal)
 //			let pxHeight = Int(frac*Float(height))
