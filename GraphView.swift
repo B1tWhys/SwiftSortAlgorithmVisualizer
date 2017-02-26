@@ -13,7 +13,6 @@ struct PixelData {
 	var r: UInt8
 	var g: UInt8
 	var b: UInt8
-
 }
 
 class GraphView: NSImageView {
@@ -58,19 +57,23 @@ class GraphView: NSImageView {
 	
 	override func draw(_ dirtyRect: NSRect) {
 		let bitmap = calcBitmap()
+		var date = NSDate()
 		let image = imageFromBitmap(bitmap, width: Int(self.frame.width*2.0), height: Int(self.frame.height*2.0))
+		Swift.print("imageGen: \(-date.timeIntervalSinceNow)")
+		date = NSDate()
 		image.draw(in: dirtyRect)
+		Swift.print("draw: \(-date.timeIntervalSinceNow)\n\n")
 	}
 	
 	let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
 	let bitmapInfo: CGBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
 	
-	func imageFromBitmap(_ pixels:[PixelData], width: Int, height: Int) -> NSImage {
+	func imageFromBitmap(_ pixels:[UInt32], width: Int, height: Int) -> NSImage {
 		let bitsPerComponent = 8
 		let bitsPerPixel = 32
 		
 		assert(pixels.count == Int(width*height))
-		var data: [PixelData] = pixels
+		var data: [UInt32] = pixels
 		let providerRef = CGDataProvider(
 			data: Data(bytes: UnsafeRawPointer!(&data), count: data.count * MemoryLayout<PixelData>.size) as CFData
 		)
@@ -91,16 +94,12 @@ class GraphView: NSImageView {
 		return NSImage(cgImage: gcim!, size: CGSize(width: width, height: height))
 	}
 	
-	
-	func calcBitmap() -> [PixelData] {
-		var pixels = [PixelData]()
+	func calcBitmap() -> [UInt32] {
 		let height = Int(self.frame.height*2)
 		let width = Int(self.frame.width*2)
 		
-		NSGraphicsContext.current()
-		
-		pixels.reserveCapacity(height*width)
-		
+		var pixels = Array(repeating: Array(repeating: UInt32.max, count: height), count: width)
+
 		let maxVal = Float(self.values.max()!)
 		let scaleFactor = Float(height)/maxVal
 		
@@ -109,34 +108,34 @@ class GraphView: NSImageView {
 			barHeights.append(Int(Float(val)*scaleFactor))
 		}
 		
-		let whitePx = PixelData(a: 255, r: 255, g: 255, b: 255)
-		let blackPx = PixelData(a: 255, r: 0, g: 0, b: 0)
+		let blackPx = UInt32(255)
 		
-		var prevColumn: [PixelData]?
-		var prevHeight: Int?
+		var vector = Array(repeating: UInt32.max, count: width*height)
 		
-		for column in 0..<width {
-			let index = Int(roundf((Float(column)/Float(width))*Float(self.values.count-1)))
-			let valForColumn = barHeights[index]
-			if valForColumn != prevHeight {
-				prevHeight = valForColumn
-				prevColumn = [PixelData]()
-				for row in (0..<height).reversed() {
-					let pixel = (row <= valForColumn) ? whitePx : blackPx
-					prevColumn!.append(pixel)
-				}
+		let xRange = 0..<width
+		
+		let start = NSDate()
+		
+		for x in xRange {
+			let index = Int(roundf((Float(x)/Float(width))*Float(self.values.count-1)))
+			let pxHeight = barHeights[index]
+			
+			let yRange = (0..<pxHeight)
+			for y in yRange {
+				//pixels[x][y] = blackPx
+				vector[width*y+x] = blackPx
 			}
-			pixels.append(contentsOf: prevColumn!)
 		}
 		
-//		Swift.print(testpx)
-//		for val in self.values {
-//			let frac = Float(val)/Float(maxVal)
-//			let pxHeight = Int(frac*Float(height))
-//			let column = Array(repeating: true, count: pxHeight) + Array(repeating: false, count: Int(height)-pxHeight)
-//			pixels.append(contentsOf: column*perBarWidth)
+		Swift.print("EntireLoop: \(-start.timeIntervalSinceNow)")
+//		
+//		for row in 0..<height {
+//			for column in 0..<width {
+//				vector[width*row+column] = pixels[column][row]
+//
+//			}
 //		}
 		
-		return pixels
+		return vector
 	}
 }
