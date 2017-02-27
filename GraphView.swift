@@ -71,26 +71,5 @@ class GraphView: NSImageView {
 			path.appendRect(rect)
 		}
 		path.fill()
-		
-		
-		
-	}
-	
-	private func calcBitmap() -> [Bool] {
-		var pixels = [Bool]() // column / rows
-		NSGraphicsContext.current()
-		let perBarWidth = Int((self.frame.width*2)/CGFloat(self.values.count))
-
-		let height = Float(self.frame.height*2)
-		let maxVal = self.values.max()!
-		
-		for val in self.values {
-			let frac = Float(val)/Float(maxVal)
-			let pxHeight = Int(frac*height)
-			let column = Array(repeating: true, count: pxHeight) + Array(repeating: false, count: Int(height)-pxHeight)
-			pixels.append(contentsOf: column*perBarWidth)
-		}
-		
-		return pixels
 	}
 }

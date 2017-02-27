@@ -9,7 +9,7 @@
 import Cocoa
 
 let numOfItemsInArray = 100
-
+let sortAlgorithm: SortAlgorithm = .quickSort
 
 class ViewController: NSViewController {
 	@IBOutlet weak var graphView: GraphView!
@@ -22,8 +22,6 @@ class ViewController: NSViewController {
 	required override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 	}
-	
-
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -45,7 +43,7 @@ class ViewController: NSViewController {
 //			Sorter.quicksort(array: &Sorter.vals, lo: 0, hi: Sorter.vals.count)
 //			Sorter.bubbleSort(array: &Sorter.vals)
 			
-			Sorter.sort(algorithm: .bubbleSort)
+			Sorter.sort(algorithm: sortAlgorithm)
 			
 			DispatchQueue.main.sync {
 				Sorter.sorted = true

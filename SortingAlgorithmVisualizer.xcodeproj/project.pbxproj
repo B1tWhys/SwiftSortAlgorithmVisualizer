@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D410E4101E649A29008D4937 /* SortingAlgorithmVisualizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D410E40F1E649A29008D4937 /* SortingAlgorithmVisualizerTests.swift */; };
 		D43EE66E1E4920600071A9AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EE66D1E4920600071A9AB /* AppDelegate.swift */; };
 		D43EE6701E4920600071A9AB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EE66F1E4920600071A9AB /* ViewController.swift */; };
 		D43EE6721E4920600071A9AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D43EE6711E4920600071A9AB /* Assets.xcassets */; };
@@ -16,7 +17,20 @@
 		D43EE6831E4CC76A0071A9AB /* Sorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EE6821E4CC76A0071A9AB /* Sorter.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D410E4121E649A29008D4937 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D43EE6621E49205F0071A9AB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D43EE6691E49205F0071A9AB;
+			remoteInfo = SortingAlgorithmVisualizer;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		D410E40D1E649A29008D4937 /* SortingAlgorithmVisualizerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SortingAlgorithmVisualizerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D410E40F1E649A29008D4937 /* SortingAlgorithmVisualizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingAlgorithmVisualizerTests.swift; sourceTree = "<group>"; };
+		D410E4111E649A29008D4937 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D43EE66A1E4920600071A9AB /* SortingAlgorithmVisualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SortingAlgorithmVisualizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43EE66D1E4920600071A9AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D43EE66F1E4920600071A9AB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,6 +43,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D410E40A1E649A29008D4937 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D43EE6671E49205F0071A9AB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -39,10 +60,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D410E40E1E649A29008D4937 /* SortingAlgorithmVisualizerTests */ = {
+			isa = PBXGroup;
+			children = (
+				D410E40F1E649A29008D4937 /* SortingAlgorithmVisualizerTests.swift */,
+				D410E4111E649A29008D4937 /* Info.plist */,
+			);
+			path = SortingAlgorithmVisualizerTests;
+			sourceTree = "<group>";
+		};
 		D43EE6611E49205F0071A9AB = {
 			isa = PBXGroup;
 			children = (
 				D43EE66C1E4920600071A9AB /* SortingAlgorithmVisualizer */,
+				D410E40E1E649A29008D4937 /* SortingAlgorithmVisualizerTests */,
 				D43EE66B1E4920600071A9AB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				D43EE66A1E4920600071A9AB /* SortingAlgorithmVisualizer.app */,
+				D410E40D1E649A29008D4937 /* SortingAlgorithmVisualizerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,6 +105,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D410E40C1E649A29008D4937 /* SortingAlgorithmVisualizerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D410E4161E649A29008D4937 /* Build configuration list for PBXNativeTarget "SortingAlgorithmVisualizerTests" */;
+			buildPhases = (
+				D410E4091E649A29008D4937 /* Sources */,
+				D410E40A1E649A29008D4937 /* Frameworks */,
+				D410E40B1E649A29008D4937 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D410E4131E649A29008D4937 /* PBXTargetDependency */,
+			);
+			name = SortingAlgorithmVisualizerTests;
+			productName = SortingAlgorithmVisualizerTests;
+			productReference = D410E40D1E649A29008D4937 /* SortingAlgorithmVisualizerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D43EE6691E49205F0071A9AB /* SortingAlgorithmVisualizer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D43EE6791E4920600071A9AB /* Build configuration list for PBXNativeTarget "SortingAlgorithmVisualizer" */;
@@ -100,6 +150,12 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Skyler Arnold";
 				TargetAttributes = {
+					D410E40C1E649A29008D4937 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 4D9GX636ZZ;
+						ProvisioningStyle = Automatic;
+						TestTargetID = D43EE6691E49205F0071A9AB;
+					};
 					D43EE6691E49205F0071A9AB = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -120,11 +176,19 @@
 			projectRoot = "";
 			targets = (
 				D43EE6691E49205F0071A9AB /* SortingAlgorithmVisualizer */,
+				D410E40C1E649A29008D4937 /* SortingAlgorithmVisualizerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D410E40B1E649A29008D4937 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D43EE6681E49205F0071A9AB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,6 +201,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D410E4091E649A29008D4937 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D410E4101E649A29008D4937 /* SortingAlgorithmVisualizerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D43EE6661E49205F0071A9AB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -151,6 +223,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D410E4131E649A29008D4937 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D43EE6691E49205F0071A9AB /* SortingAlgorithmVisualizer */;
+			targetProxy = D410E4121E649A29008D4937 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		D43EE6731E4920600071A9AB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -163,6 +243,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D410E4141E649A29008D4937 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4D9GX636ZZ;
+				INFOPLIST_FILE = SortingAlgorithmVisualizerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.skyler.SortingAlgorithmVisualizerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SortingAlgorithmVisualizer.app/Contents/MacOS/SortingAlgorithmVisualizer";
+			};
+			name = Debug;
+		};
+		D410E4151E649A29008D4937 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4D9GX636ZZ;
+				INFOPLIST_FILE = SortingAlgorithmVisualizerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.skyler.SortingAlgorithmVisualizerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SortingAlgorithmVisualizer.app/Contents/MacOS/SortingAlgorithmVisualizer";
+			};
+			name = Release;
+		};
 		D43EE6771E4920600071A9AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -282,6 +392,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D410E4161E649A29008D4937 /* Build configuration list for PBXNativeTarget "SortingAlgorithmVisualizerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D410E4141E649A29008D4937 /* Debug */,
+				D410E4151E649A29008D4937 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		D43EE6651E49205F0071A9AB /* Build configuration list for PBXProject "SortingAlgorithmVisualizer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
