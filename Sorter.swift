@@ -14,7 +14,7 @@ enum SortAlgorithm {
 }
 
 struct Sorter {
-	static var swaps = [Swap]()
+	static var steps = [Step]()
 	static var vals = [Int]()
 	static var sorted = false
 	
@@ -26,6 +26,7 @@ struct Sorter {
 		case .bubbleSort:
 			Sorter.bubbleSort(array: &Sorter.vals)
 		}
+		Swift.print("sort complete")
 	}
 	
 	static private func bubbleSort(array A: inout[Int]) {
@@ -36,7 +37,9 @@ struct Sorter {
 				if A[i-1] > A[i] {
 					let swap = Swap(index1: i-1, index2: i)
 					DispatchQueue.main.sync {
-						swaps.append(swap)
+						steps.append(Read(i-1))
+						steps.append(Read(i))
+						steps.append(swap)
 						A.swap(swapObj: swap)
 					}
 					
@@ -47,16 +50,30 @@ struct Sorter {
 		} while swapped
 	}
 	
+	static private func addRead(_ index: Int) {
+		DispatchQueue.main.sync {
+			steps.append(Read(index))
+		}
+	}
+	
 	static private func quicksort(array A: inout [Int], lo: Int, hi: Int) {
 		func partition(A: inout [Int], lo: Int, hi: Int) -> Int {
 			let pivot = A[lo]
+			var pivotIndex = lo
 			var leftwall = lo
 			
 			for i in (lo+1)..<hi {
+				Sorter.addRead(pivotIndex)
+				Sorter.addRead(i)
 				if (A[i] < pivot) {
+					if (i == pivotIndex) {
+						pivotIndex = leftwall
+					} else if (leftwall == pivotIndex) {
+						pivotIndex = i
+					}
 					let swap = Swap(index1: i, index2: leftwall)
 					DispatchQueue.main.sync {
-						swaps.append(swap)
+						steps.append(swap)
 						A.swap(swapObj: swap)
 					}
 					leftwall += 1
@@ -64,18 +81,16 @@ struct Sorter {
 			}
 			
 			DispatchQueue.main.sync {
-				let swap = Swap(index1: Sorter.vals.index(of: pivot)!, index2: leftwall)
+				let swap = Swap(index1: pivotIndex, index2: leftwall)
 				
-				swaps.append(swap)
+				steps.append(swap)
 				A.swap(swapObj: swap)
 			}
-			
 			
 			return leftwall
 		}
 		
 		if (lo < hi) {
-			//sleep(1)
 			let p = partition(A: &A, lo: lo, hi: hi)
 			quicksort(array: &A, lo: lo, hi: p)
 			quicksort(array: &A, lo: p+1, hi: hi)

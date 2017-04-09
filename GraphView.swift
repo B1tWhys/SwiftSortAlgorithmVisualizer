@@ -16,6 +16,8 @@ struct PixelData {
 }
 
 class GraphView: NSImageView {
+	var colorDict = [Int:NSColor]()
+	
 	
 	var values: [Int]! {
 		didSet {
@@ -30,13 +32,13 @@ class GraphView: NSImageView {
 			return Float(self.frame.width)/Float(values.count)
 		}
 	}
+	
 	var hScale: Float {
 		get {
 			let range = Float(values.max()!)
 			return Float(self.frame.height)/range
 		}
 	}
-	
 	
 	override init(frame frameRect: NSRect) {
 		self.values = [Int]()
@@ -57,8 +59,9 @@ class GraphView: NSImageView {
 	override func draw(_ dirtyRect: NSRect) {
 		NSColor.black.setFill()
 		NSBezierPath.fill(dirtyRect)
-		NSColor.white.setFill()
-		let path = NSBezierPath()
+		
+		var paths = [NSColor.white : NSBezierPath()]
+		
 		for index in 0..<self.values.count {
 			let val = self.values[index]
 			let height = CGFloat(Float(val)*self.hScale)
@@ -68,8 +71,27 @@ class GraphView: NSImageView {
 			                  y: 0.0,
 			                  width: CGFloat(self.barWidth),
 			                  height: height)
+			
+			var path: NSBezierPath
+			if (self.colorDict.keys.contains(index)) {
+				if (!paths.keys.contains(self.colorDict[index]!)) {
+					path = NSBezierPath()
+					paths[self.colorDict[index]!] = path
+				} else {
+					path = paths[self.colorDict[index]!]!
+				}
+			} else {
+				path = paths[NSColor.white]!
+			}
+			
 			path.appendRect(rect)
 		}
-		path.fill()
+		
+		for (color, path) in paths {
+			color.setFill()
+			path.fill()
+		}
+		
+		self.colorDict = [Int:NSColor]()
 	}
 }

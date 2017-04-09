@@ -10,6 +10,7 @@ import Cocoa
 
 let numOfItemsInArray = 100
 let sortAlgorithm: SortAlgorithm = .quickSort
+let fps = 2
 
 class ViewController: NSViewController {
 	@IBOutlet weak var graphView: GraphView!
@@ -29,9 +30,10 @@ class ViewController: NSViewController {
 		self.view.window?.backgroundColor = NSColor.black
 		
 		self.runSort()
-
-		print(Sorter.swaps.count)
-		Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(updateGraphView(sender:)), userInfo: nil, repeats: true)
+		
+		print(Sorter.steps.count)
+		let interval = TimeInterval(1/Float(fps))
+		Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(updateGraphView(sender:)), userInfo: nil, repeats: true)
 		
 	}
 
@@ -65,9 +67,16 @@ class ViewController: NSViewController {
 	}
 	
 	func updateGraphView(sender: Any) {
-		if Sorter.swaps.count > 0 {
-			let swap = Sorter.swaps.remove(at: 0)
-			self.graphView.values.swap(swapObj: swap)
+		if Sorter.steps.count > 0 {
+			let step = Sorter.steps.remove(at: 0)
+			if let swap = step as? Swap {
+				self.graphView.values.swap(swapObj: swap)
+				self.graphView.colorDict[swap.index1] = NSColor.red
+				self.graphView.colorDict[swap.index2] = NSColor.red
+			} else if let read = step as? Read {
+				self.graphView.colorDict[read.index] = NSColor.green
+				self.graphView.setNeedsDisplay()
+			}
 		} else if Sorter.sorted {
 			if let sender = sender as? Timer {
 				sender.invalidate()
